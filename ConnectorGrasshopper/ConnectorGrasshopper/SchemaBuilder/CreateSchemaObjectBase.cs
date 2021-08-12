@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using ConnectorGrasshopper.Extras;
 using ConnectorGrasshopper.Objects;
+using ConnectorGrasshopperUtils;
 using GH_IO.Serialization;
 using Grasshopper.GUI.Canvas;
 using Grasshopper.Kernel;
@@ -285,16 +286,14 @@ namespace ConnectorGrasshopper
       try
       {
         schemaObject = SelectedConstructor.Invoke(cParamsValues.ToArray());
+        ((Base)schemaObject).applicationId = $"{Seed}-{SelectedConstructor.DeclaringType.FullName}-{DA.Iteration}";
+        ((Base)schemaObject)["units"] = units;
       }
       catch (Exception e)
       {
         AddRuntimeMessage(GH_RuntimeMessageLevel.Error, e.InnerException?.Message ?? e.Message);
         return;
       }
-
-      var @base = ((Base) schemaObject).ShallowCopy();
-      @base.applicationId = $"{Seed}-{SelectedConstructor.DeclaringType.FullName}-{DA.Iteration}";
-      @base.units = units;
 
       // create commit obj from main geometry param and try to attach schema obj. use schema obj if no main geom param was found.
       Base commitObj = ((Base) schemaObject).ShallowCopy();
@@ -304,7 +303,7 @@ namespace ConnectorGrasshopper
         {
           commitObj = ((Base) mainSchemaObj).ShallowCopy();
           commitObj["@SpeckleSchema"] = schemaObject;
-          commitObj.units = units;
+          commitObj["units"] = units;
         }
       }
       catch

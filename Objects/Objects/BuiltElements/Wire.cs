@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Objects.Geometry;
+using Objects.Utils;
 using Speckle.Core.Kits;
 using Speckle.Core.Models;
 
@@ -8,6 +9,8 @@ namespace Objects.BuiltElements
   public class Wire : Base
   {
     public List<ICurve> segments { get; set; }
+
+    public string units { get; set; }
 
     public Wire() { }
 
@@ -29,7 +32,7 @@ namespace Objects.BuiltElements.Revit
     public List<double> constructionPoints { get; set; } // used in constructor for revit native wires
     public string system { get; set; }
     public Level level { get; set; }
-    public List<Parameter> parameters { get; set; }
+    public Base parameters { get; set; }
     public string elementId { get; set; }
 
     public RevitWire() { }
@@ -42,7 +45,7 @@ namespace Objects.BuiltElements.Revit
       this.type = type;
       this.level = level;
       this.wiringType = wiringType;
-      this.parameters = parameters;
+      this.parameters = parameters.ToBase();
     }
   }
 }

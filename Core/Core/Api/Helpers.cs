@@ -64,7 +64,8 @@ namespace Speckle.Core.Api
         remoteTransport: transport,
         onErrorAction: onErrorAction,
         onProgressAction: onProgressAction,
-        onTotalChildrenCountKnown: onTotalChildrenCountKnown
+        onTotalChildrenCountKnown: onTotalChildrenCountKnown,
+        disposeTransports: true
       );
 
     }
@@ -79,7 +80,7 @@ namespace Speckle.Core.Api
     /// <param name="onProgressAction">Action invoked on progress iterations.</param>
     /// <param name="onErrorAction">Action invoked on internal errors.</param>
     /// <returns></returns>
-    public static async Task<string> Send(string stream, Base data, string message = "No message", string sourceApplication = "", int totalChildrenCount = 0, Account account = null, bool useDefaultCache = true, Action<ConcurrentDictionary<string, int>> onProgressAction = null, Action<string, Exception> onErrorAction = null)
+    public static async Task<string> Send(string stream, Base data, string message = "No message", string sourceApplication = ".net", int totalChildrenCount = 0, Account account = null, bool useDefaultCache = true, Action<ConcurrentDictionary<string, int>> onProgressAction = null, Action<string, Exception> onErrorAction = null)
     {
       var sw = new StreamWrapper(stream);
 
@@ -93,7 +94,7 @@ namespace Speckle.Core.Api
         new List<ITransport> { transport },
         useDefaultCache,
         onProgressAction,
-        onErrorAction);
+        onErrorAction, disposeTransports: true);
 
       Tracker.TrackPageview(Tracker.SEND);
 

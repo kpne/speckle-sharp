@@ -1,4 +1,5 @@
 ﻿using Objects.Geometry;
+using Objects.Utils;
 using Speckle.Core.Kits;
 using Speckle.Core.Models;
 using System.Collections.Generic;
@@ -15,6 +16,8 @@ namespace Objects.BuiltElements
 
     [DetachProperty]
     public Mesh displayMesh { get; set; }
+
+    public string units { get; set; }
 
     public Wall() { }
 
@@ -48,7 +51,7 @@ namespace Objects.BuiltElements.Revit
     public bool structural { get; set; }
     public Level level { get; set; }
     public Level topLevel { get; set; }
-    public List<Parameter> parameters { get; set; }
+    public Base parameters { get; set; }
     public string elementId { get; set; }
 
     public RevitWall() { }
@@ -84,7 +87,7 @@ namespace Objects.BuiltElements.Revit
       this.level = level;
       this.topLevel = topLevel;
       this.elements = elements;
-      this.parameters = parameters;
+      this.parameters = parameters.ToBase();
     }
 
     /// <summary>
@@ -105,7 +108,7 @@ namespace Objects.BuiltElements.Revit
     [SchemaInfo("RevitWall by curve and height", "Creates an unconnected Revit wall.", "Revit", "Architecture")]
     public RevitWall(string family, string type,
       [SchemaMainParam] ICurve baseLine, Level level, double height, double baseOffset = 0, double topOffset = 0, bool flipped = false, bool structural = false,
-      [SchemaParamInfo("Set in here any nested elements that this level might have.")] List<Base> elements = null,
+      [SchemaParamInfo("Set in here any nested elements that this wall might have.")] List<Base> elements = null,
       List<Parameter> parameters = null)
     {
       this.family = family;
@@ -118,7 +121,7 @@ namespace Objects.BuiltElements.Revit
       this.structural = structural;
       this.level = level;
       this.elements = elements;
-      this.parameters = parameters;
+      this.parameters = parameters.ToBase();
     }
   }
 
@@ -129,7 +132,7 @@ namespace Objects.BuiltElements.Revit
     public Surface surface { get; set; }
     public Level level { get; set; }
     public LocationLine locationLine { get; set; }
-    public List<Parameter> parameters { get; set; }
+    public Base parameters { get; set; }
     public string elementId { get; set; }
 
     public RevitFaceWall() { }
@@ -138,7 +141,7 @@ namespace Objects.BuiltElements.Revit
     public RevitFaceWall(string family, string type,
       [SchemaParamInfo("Surface or single face Brep to use")][SchemaMainParam] Brep surface,
       Level level, LocationLine locationLine = LocationLine.Interior,
-      [SchemaParamInfo("Set in here any nested elements that this level might have.")] List<Base> elements = null,
+      [SchemaParamInfo("Set in here any nested elements that this wall might have.")] List<Base> elements = null,
       List<Parameter> parameters = null)
     {
       this.family = family;
@@ -147,7 +150,38 @@ namespace Objects.BuiltElements.Revit
       this.locationLine = locationLine;
       this.level = level;
       this.elements = elements;
-      this.parameters = parameters;
+      this.parameters = parameters.ToBase();
+    }
+  }
+
+  public class RevitProfileWall : Wall
+  {
+    public string family { get; set; }
+    public string type { get; set; }
+    public Polycurve profile { get; set; }
+    public Level level { get; set; }
+    public LocationLine locationLine { get; set; }
+    public bool structural { get; set; }
+    public Base parameters { get; set; }
+    public string elementId { get; set; }
+
+    public RevitProfileWall() { }
+
+    [SchemaInfo("RevitWall by profile", "Creates a Revit wall from a profile.", "Revit", "Architecture")]
+    public RevitProfileWall(string family, string type,
+      [SchemaParamInfo("Profile to use")][SchemaMainParam] Polycurve profile, Level level,
+      LocationLine locationLine = LocationLine.Interior, bool structural = false,
+      [SchemaParamInfo("Set in here any nested elements that this wall might have.")] List<Base> elements = null,
+      List<Parameter> parameters = null)
+    {
+      this.family = family;
+      this.type = type;
+      this.profile = profile;
+      this.locationLine = locationLine;
+      this.structural = structural;
+      this.level = level;
+      this.elements = elements;
+      this.parameters = parameters.ToBase();
     }
   }
 
@@ -163,7 +197,7 @@ namespace Objects.BuiltElements.Revit
   //   public bool flipped { get; set; }
   //
   //   [SchemaOptional]
-  //   public List<Parameter> parameters { get; set; }
+  //   public Base parameters { get; set; }
   //
   //   [SchemaIgnore]
   //   public string elementId { get; set; }
@@ -174,7 +208,7 @@ namespace Objects.BuiltElements.Revit
   // public class RevitWallByPoint : Base
   // {
   //   [SchemaOptional]
-  //   public List<Parameter> parameters { get; set; }
+  //   public Base parameters { get; set; }
   //
   //   [SchemaIgnore]
   //   public string elementId { get; set; }

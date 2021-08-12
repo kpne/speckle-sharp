@@ -13,10 +13,12 @@ namespace Objects.BuiltElements.Revit
     public Polycurve path { get; set; }
     public bool flipped { get; set; }
     public string elementId { get; set; }
-    public List<Parameter> parameters { get; set; }
+    public Base parameters { get; set; }
 
     [DetachProperty]
     public Mesh displayMesh { get; set; }
+
+    public string units { get; set; }
 
     public RevitRailing() { }
 

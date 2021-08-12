@@ -1,4 +1,5 @@
 ﻿using Objects.Geometry;
+using Objects.Utils;
 using Speckle.Core.Kits;
 using Speckle.Core.Models;
 using System;
@@ -18,6 +19,8 @@ namespace Objects.BuiltElements
     [DetachProperty]
     public Mesh displayMesh { get; set; }
 
+    public string units { get; set; }
+
     public Roof() { }
 
     [SchemaInfo("Roof", "Creates a Speckle roof", "BIM", "Architecture")]
@@ -36,7 +39,7 @@ namespace Objects.BuiltElements.Revit.RevitRoof
   {
     public string family { get; set; }
     public string type { get; set; }
-    public List<Parameter> parameters { get; set; }
+    public Base parameters { get; set; }
     public string elementId { get; set; }
     public Level level { get; set; }
 
@@ -74,7 +77,7 @@ namespace Objects.BuiltElements.Revit.RevitRoof
     {
       this.family = family;
       this.type = type;
-      this.parameters = parameters;
+      this.parameters = parameters.ToBase();
       this.level = level;
       this.start = start;
       this.end = end;
@@ -100,7 +103,7 @@ namespace Objects.BuiltElements.Revit.RevitRoof
       this.family = family;
       this.type = type;
       this.slope = slope;
-      this.parameters = parameters;
+      this.parameters = parameters.ToBase();
       this.level = level;
       this.cutOffLevel = cutOffLevel;
       this.elements = elements;

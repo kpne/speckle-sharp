@@ -1,4 +1,5 @@
-﻿using Speckle.Core.Kits;
+﻿using Objects.Utils;
+using Speckle.Core.Kits;
 using Speckle.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ namespace Objects.BuiltElements
   {
     public string name { get; set; }
     public double elevation { get; set; }
+
+    public string units { get; set; }
     //public List<Base> elements { get; set; }
 
     public Level() { }
@@ -34,7 +37,7 @@ namespace Objects.BuiltElements.Revit
   public class RevitLevel : Level
   {
     public bool createView { get; set; }
-    public List<Parameter> parameters { get; set; }
+    public Base parameters { get; set; }
     public string elementId { get; set; }
     public bool referenceOnly { get; set; }
 
@@ -58,7 +61,7 @@ namespace Objects.BuiltElements.Revit
       this.name = name;
       this.elevation = elevation;
       this.createView = createView;
-      this.parameters = parameters;
+      this.parameters = parameters.ToBase();
       this.referenceOnly = false;
     }
 

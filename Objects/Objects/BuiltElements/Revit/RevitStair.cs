@@ -20,7 +20,7 @@ namespace Objects.BuiltElements.Revit
     public bool beginsWithRiser { get; set; }
     public double height { get; set; }
     public int numberOfStories { get; set; }
-    public List<Parameter> parameters { get; set; }
+    public Base parameters { get; set; }
     public List<RevitStairRun> runs { get; set; }
     public List<RevitStairLanding> landings { get; set; }
     public List<RevitStairSupport> supports { get; set; }
@@ -28,6 +28,8 @@ namespace Objects.BuiltElements.Revit
 
     [DetachProperty]
     public Mesh displayMesh { get; set; }
+
+    public string units { get; set; }
 
     public RevitStair() { }
   }
@@ -49,8 +51,10 @@ namespace Objects.BuiltElements.Revit
     public double extensionBelowTreadBase { get; set; }
     public double height { get; set; }
     public string runStyle { get; set; }
-    public List<Parameter> parameters { get; set; }
+    public Base parameters { get; set; }
     public string elementId { get; set; }
+
+    public string units { get; set; }
 
     public RevitStairRun() { }
   }
@@ -63,8 +67,10 @@ namespace Objects.BuiltElements.Revit
     public double baseElevation { get; set; }
     public double thickness { get; set; }
     public Polycurve outline { get; set; }
-    public List<Parameter> parameters { get; set; }
+    public Base parameters { get; set; }
     public string elementId { get; set; }
+
+    public string units { get; set; }
 
     public RevitStairLanding() { }
   }
@@ -73,8 +79,10 @@ namespace Objects.BuiltElements.Revit
   {
     public string family { get; set; }
     public string type { get; set; }
-    public List<Parameter> parameters { get; set; }
+    public Base parameters { get; set; }
     public string elementId { get; set; }
+
+    public string units { get; set; }
 
     public RevitStairSupport() { }
   }

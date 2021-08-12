@@ -1,4 +1,5 @@
 ﻿using Objects.Geometry;
+using Objects.Utils;
 using Speckle.Core.Kits;
 using Speckle.Core.Models;
 using System;
@@ -10,6 +11,8 @@ namespace Objects.BuiltElements
   public class Opening : Base
   {
     public ICurve outline { get; set; }
+
+    public string units { get; set; }
 
     public Opening() { }
 
@@ -27,7 +30,7 @@ namespace Objects.BuiltElements.Revit
   {
     //public string family { get; set; }
     //public string type { get; set; }
-    public List<Parameter> parameters { get; set; }
+    public Base parameters { get; set; }
     public string elementId { get; set; }
 
     public RevitOpening() { }
@@ -65,7 +68,7 @@ namespace Objects.BuiltElements.Revit
       this.outline = outline;
       this.bottomLevel = bottomLevel;
       this.topLevel = topLevel;
-      this.parameters = parameters;
+      this.parameters = parameters.ToBase();
     }
 
     /*
@@ -83,7 +86,7 @@ namespace Objects.BuiltElements.Revit
       this.outline = outline;
       this.bottomLevel = bottomLevel;
       this.height = height;
-      this.parameters = parameters;
+      this.parameters = parameters.ToBase();
     }
     */
   }

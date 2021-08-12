@@ -26,6 +26,8 @@ namespace Objects.Geometry
       }
       set
       {
+        if (value == null)
+          return;
         start = new Point(value[0], value[1], value[2]);
         end = new Point(value[3], value[4], value[5]);
       }
@@ -37,6 +39,8 @@ namespace Objects.Geometry
 
     public double area { get; set; }
     public double length { get; set; }
+
+    public string units { get; set; }
 
     public Point start { get; set; }
     public Point end { get; set; }

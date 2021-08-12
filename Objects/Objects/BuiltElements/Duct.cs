@@ -1,4 +1,5 @@
 ﻿using Objects.Geometry;
+using Objects.Utils;
 using Speckle.Core.Kits;
 using Speckle.Core.Models;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ namespace Objects.BuiltElements
 
     [DetachProperty]
     public Mesh displayMesh { get; set; }
+
+    public string units { get; set; }
 
     public Duct() { }
 
@@ -49,7 +52,7 @@ namespace Objects.BuiltElements.Revit
     public string systemName { get; set; }
     public string systemType { get; set; }
     public Level level { get; set; }
-    public List<Parameter> parameters { get; set; }
+    public Base parameters { get; set; }
     public string elementId { get; set; }
 
     public RevitDuct() { }
@@ -81,7 +84,7 @@ namespace Objects.BuiltElements.Revit
       this.velocity = velocity;
       this.systemName = systemName;
       this.systemType = systemType;
-      this.parameters = parameters;
+      this.parameters = parameters.ToBase();
       this.level = level;
     }
   }
